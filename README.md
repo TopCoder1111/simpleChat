@@ -27,9 +27,9 @@ then it will run app and all pages will work on server-less rendering mode.
 
 ## After install, in order to test the chat function, please use the below temp account.
 
-- email: user1@test.com, password: usertest1
+- email: user1@test.com, password: testuser1
 
-- email: user2@test.com, password: usertest2
+- email: user2@test.com, password: testuser2
 
-- email: user3@test.com, password: usertest3
+- email: user3@test.com, password: testuser3
 
