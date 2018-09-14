@@ -1,0 +1,15 @@
+
+<div class="item user-block" >
+    <!-- User picture-->
+    <div class="user-block-picture">
+        <div class="user-block-status">
+            <img *ngIf="profile" class="img-thumbnail img-circle" src="{{profile.avatar}}" alt="Avatar" />            
+        </div>
+    </div>
+    <!-- Name and Job-->
+    <div class="user-block-info">
+        <span class="user-block-name">{{ profile?.username }}</span>
+        <mat-icon color="{{statusColor(profile?.status)}}">account_circle</mat-icon>
+
+    </div>
+</div>

@@ -1,0 +1,54 @@
+<div class="chat-container ">
+  <div class="panel"  *ngIf = "!userService.loading">
+    <div class="panel-heading">
+       
+    </div>
+    <div class="panel-body">
+        <div #scrollMe class="jumbotron chat-window">
+            <div class="row">
+                <div class="col-12 chat-text">
+                    <h1>Simple &
+                        <br> easy chat app</h1>
+                        <p> Choose ther user and start chat with them very simply.</p>
+                </div>
+                <div class="message" *ngIf ='isVisableMsg()'>
+                    <mat-list role="list"  *ngFor ="let conversation of messageService.conversations">
+                        <mat-card>
+                            <mat-card-title>
+                                <img  alt="Avatar" class="img-thumbnail img-circle" src="{{isSender(conversation?.sender)?sender?.avatar:receiver?.avatar}}" style="
+                                    width: 55px;
+                                ">
+                                {{isSender(conversation?.sender)?sender.username:receiver.username}}
+                            </mat-card-title>
+                            <mat-card-content>
+                                <div  class="row col-12" style="display: inline-flex;">
+                                    <div class="col-10">
+                                        <mat-list-item role="listitem">{{conversation?.message}}</mat-list-item>
+                                    </div>
+                                    <div class="col-2">
+                                        <span>{{formateTime(conversation?.created_at)}}</span>
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </mat-list>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+    <div class="panel-footer">
+        <a class="phone"><i class="fa fa-phone" style="font-size:25px;" aria-hidden="true"></i></a>
+        <a><i class="fa fa-cog" style="font-size:25px;" aria-hidden="true"></i></a>
+        &nbsp;&nbsp;
+        <mat-form-field class="chat-box">
+            <textarea matInput placeholder="Type message here..." [(ngModel)] = "messageText"></textarea>
+          </mat-form-field>
+          &nbsp;&nbsp;
+        <button mat-raised-button (click) ="sendMessage()" [disabled]="!messageText">SEND <i class="fa fa-paper-plane" style="font-size:18px;" aria-hidden="true"></i></button>
+        <mat-checkbox *ngIf="messageText">send message to all user</mat-checkbox>
+        <p *ngIf ='!auth.connectionStatus' class="net-error"> Network disconnected, Please check Network status, once fixed, it will connect automatically. </p>
+    </div>
+  </div>
+  
+</div>

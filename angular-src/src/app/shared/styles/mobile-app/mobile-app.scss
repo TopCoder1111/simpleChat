@@ -1,0 +1,21 @@
+mat-card { 
+    // background: #263238;
+    background: #000;
+    color: #fff;
+    mat-card-content{
+        p {
+            color: #a0a0a0;
+            a{
+                color: #fff;
+            }
+        }
+        em {
+            margin-right: 10px;
+            font-size: 1.6em;
+            vertical-align: middle; 
+        }
+    }
+}
+.mat-card-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+}

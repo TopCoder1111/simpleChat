@@ -1,0 +1,34 @@
+@import '../../../shared/styles/app/variables.scss';
+@import '../../../shared/styles/app/media-queries.scss';
+
+.chat-container {
+    max-width: 70%;
+
+    .chat-logo {
+        width: 100px;
+    }
+
+    .chat-text {
+        text-align: center;
+    }
+    .chat-box{
+        width: 500px;
+        
+    }
+    .chat-window{
+        overflow-y: scroll;
+        max-height:500px;
+    }
+    .chat-input{
+        border: 1px solid rgb(215, 215, 215);
+        padding-top: 21px;
+    }
+    .phone{
+        padding-right: 6px;
+        padding-left: 9px;
+        vertical-align: middle;
+    }
+    .net-error{
+        color: red;
+    }
+}

@@ -1,0 +1,23 @@
+@import '../../../shared/styles/app/variables.scss';
+@import '../../../shared/styles/app/media-queries.scss';
+
+.chat-container {
+    margin: 0 auto;
+    max-width: $container-md;
+
+    .chat-logo {
+        width: 100px;
+    }
+
+    .chat-text {
+        text-align: center;
+    }
+}
+
+.development-environment {
+    font-size: 28px;
+    font-weight: bold;
+    color: red;
+    text-align: center;
+    margin: 16px 0;
+}

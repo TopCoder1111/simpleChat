@@ -1,0 +1,60 @@
+<div class="wrapper">
+  <div class="block-center mt-xl wd-xl">
+      <!-- START panel-->
+      <div class="panel panel-dark panel-flat">
+          <div class="panel-heading text-center">
+            <h1 class="text-center">Welcome</h1>
+          </div>
+          <div class="panel-body ">
+            <form  [formGroup]="userFrom">
+                <p class="text-center pv">SIGN IN TO CONTINUE.</p>
+                <mat-form-field class="col-lg-12" *ngIf ='!isLogin'>
+                  <input matInput formControlName="username" 
+                    type="text"  
+                    [(ngModel)] = 'username' 
+                    placeholder="User Name"
+                    (focus)="errorMessage =''">
+                  <mat-error *ngIf="userFrom.email?.errors && (userFrom.email?.dirty && userFrom.email?.touched) ">
+                      Please enter Email Address.
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field class="col-lg-12">
+                  <input matInput formControlName="email" 
+                    type="email"  
+                    [(ngModel)] = 'email' 
+                    pattern="[^ @]*@[^ @]*"  
+                    placeholder="Email Address"
+                    (focus)="errorMessage =''">
+                  <mat-error *ngIf="userFrom.email?.errors && (userFrom.email?.dirty && userFrom.email?.touched) ">
+                      Please enter Email Address.
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field class="col-lg-12">
+                  <input matInput formControlName="password" 
+                    type="password" 
+                    [(ngModel)] = 'password' 
+                    placeholder="Password" 
+                    (focus)="errorMessage =''"
+                    minlength="6" required>
+                </mat-form-field>
+                <mat-error *ngIf="errorMessage.length">
+                    {{errorMessage}}
+                </mat-error>
+                <button class="btn btn-block btn-primary mt-lg" (click)="isLogin?signIn():signUp()" [disabled]="userFrom.invalid">{{isLogin?'Login':'Sign up'}}</button>
+              </form>
+          </div>
+          <div class="panel-footer">
+            <p class="text-center">{{ isLogin?'':'have already account?'}} &nbsp;<a  (click)="changePopUpStatus()">{{ isLogin?'Creat Account':'sign In'}}</a></p>
+          </div>
+      </div>
+      <!-- END panel-->
+      <div class="p-lg text-center">
+          <span>&copy;</span>
+          <span>{{ settings.app.year }}</span>
+          <span>-</span>
+          <span>{{ settings.app.name }}</span>
+          <br/>
+          <span>{{ settings.app.description }}</span>
+      </div>
+  </div>
+</div>
