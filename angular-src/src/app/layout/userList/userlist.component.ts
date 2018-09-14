@@ -27,6 +27,7 @@ export class UserListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.userService.getUserList();
         this.router = this.injector.get(Router);
         this.router.events.subscribe((val) => {
             // scroll view to top

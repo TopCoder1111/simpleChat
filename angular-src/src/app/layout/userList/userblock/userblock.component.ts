@@ -25,6 +25,7 @@ export class UserblockComponent implements OnInit {
     }
     statusColor(status: string){
         let color = '';
+        if(status == undefined || status == null){return false;}
         if(!status.indexOf('online')){
             color = 'primary';
         }

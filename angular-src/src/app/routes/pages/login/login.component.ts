@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SettingsService } from '../../../core/settings/settings.service';
 import { AuthService } from '../../../auth/auth.service';
-import {UserService} from '../../users/shared/user.service';
+import {UserService} from '../../../core/user_service/user.service';
 import {FormBuilder, FormGroup, FormControl, Validators} from '@angular/forms';
 import { Router,ActivatedRoute } from '@angular/router';
 import {User} from '../../users/shared/user.model';
@@ -70,7 +70,6 @@ export class LoginComponent implements OnInit {
         if(!res.hasOwnProperty('uid')){
           return false;
         }
-        localStorage.setItem('user',  JSON.stringify(res));
         const user: User = {
           uid: res['uid'],
           email: this.email,
@@ -80,7 +79,8 @@ export class LoginComponent implements OnInit {
           status : 'online',
           unreadMessage: 0
         }
-        // this.userService.createNewUser(user);
+        localStorage.setItem('user',  JSON.stringify(res));
+        this.userService.currentUser = res;
         this.router.navigate(['/chat']);
         return true;
       }

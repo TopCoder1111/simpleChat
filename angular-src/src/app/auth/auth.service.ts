@@ -54,6 +54,7 @@ export class AuthService {
    */
   handleAuthentication(){
     // todo
+    // 
   }
   /**
    * Do logout action for user
@@ -70,7 +71,6 @@ export class AuthService {
   isAuthenticated(): boolean {
    //check the user logged in
    const user = JSON.parse(localStorage.getItem('user'));
-   console.log(user);
     return user != null?true:false;
   }
   /**

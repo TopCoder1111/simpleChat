@@ -34,16 +34,6 @@ export class AppComponent implements OnInit {
 
     async ngOnInit() {
         $(document).on('click', '[href="#"]', e => e.preventDefault());
-
-        // this.api.get('/token').subscribe(data => {
-
-        //     let access_token;
-        //     access_token = data.text();
-        //     access_token = JSON.parse(access_token);
-        //     localStorage.setItem('access_token', access_token['access_token']);
-        // });
-
         this.auth.handleAuthentication();
-        await this.userSerivce.getUserList();
     }
 }

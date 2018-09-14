@@ -17,46 +17,6 @@ export class UserService {
         this.userItems = [];
         this.currentUser = JSON.parse(localStorage.getItem('user'));
     }
-
-    addUser(items: Array<{
-        text: string,
-        heading?: boolean,
-        link?: string,     // internal route links
-        elink?: string,    // used only for external links
-        target?: string,   // anchor target="_blank|_self|_parent|_top|framename"
-        icon?: string,
-        alert?: string,
-        submenu?: Array<any>,
-        scopes: Array<any>
-    }>) {
-
-        const headerScopes = [];
-        items.forEach((item, key) => {
-
-            let is_include = false;
-
-            item.scopes.map((scope) => {
-
-                if (scope === 'default') {
-                    is_include = true;
-                } else {
-
-                    if (item.heading) {
-                        if (headerScopes.indexOf(scope) > -1) {
-                            is_include = true;
-                        }
-                    }
-                    else {
-                        is_include = true;
-                    }
-
-                }
-            });
-            if (is_include) {
-                this.userItems.push(item);
-            }
-        });
-    }
     /**
      * 
      * @param user 

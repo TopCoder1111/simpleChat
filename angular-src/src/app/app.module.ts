@@ -20,7 +20,7 @@ import { RoutesModule } from './routes/routes.module';
 import { HttpModule } from '@angular/http';
 import { ApiService } from './providers/apiservice';
 import { AuthService } from './auth/auth.service';
-import { UserService } from './routes/users/shared/user.service';
+import { UserService } from './core/user_service/user.service';
 import { MessageService } from './core/message/message.service';
 import { AuthGuard } from './auth/auth.guard';
 import { ScopeGuardService } from './auth/scope-guard.service';
