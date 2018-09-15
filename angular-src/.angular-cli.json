@@ -1,7 +1,7 @@
 {
     "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
     "project": {
-      "name": "itsmytown-portal"
+      "name": "sample chat app"
     },
     "apps": [
       {

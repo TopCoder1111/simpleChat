@@ -1,5 +1,5 @@
 {
-  "name": "itsmytown-portal",
+  "name": "Samle chat app",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -95,6 +95,7 @@
     "zone.js": "0.8.14"
   },
   "devDependencies": {
+    "@angular-devkit/build-optimizer": "^0.8.2",
     "@angular/cli": "^1.6.7",
     "@angular/compiler-cli": "^5.2.3",
     "@angular/language-service": "5.1.1",

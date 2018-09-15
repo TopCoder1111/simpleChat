@@ -1,7 +1,7 @@
 {
   "name": "portal",
   "version": "1.0.0",
-  "description": "itsMyTown Portal",
+  "description": "Sample chat app",
   "main": "app.js",
   "scripts": {
     "start": "node app",
@@ -9,11 +9,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://bitbucket.org/ITsMyTown/portal.git"
+    "url": "git+https://github.com/TopCoder1111/simpleChat.git"
   },
-  "author": "ITsimple.io",
+  "author": "Sambath",
   "license": "MIT",
-  "homepage": "https://bitbucket.org/ITsMyTown/portal#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
     "express": "^4.16.3",

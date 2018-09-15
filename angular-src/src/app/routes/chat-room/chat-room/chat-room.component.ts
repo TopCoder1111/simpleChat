@@ -26,16 +26,17 @@ export class ChatRoomComponent implements OnInit,AfterViewChecked {
     public auth: AuthService,
     public messageService: MessageService)
   { 
-    this.receiverId = this.route.snapshot.params['id'];
-    this.messageService.getConversations(this.receiverId);
+    
     this.navigationSubscription = this.route.params.subscribe((params) => {
       // If it is a NavigationEnd event re-initalise the component
+      this.receiverId = this.route.snapshot.params['id'];
+      this.messageService.getConversations(this.receiverId);
       this.initialiseState();
     });
   }
 
   ngOnInit() {
-    
+   
   }
   initialiseState(){
     setTimeout(()=>{
