@@ -12,7 +12,6 @@ import { TranslateService, TranslateModule, TranslateLoader } from '@ngx-transla
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppComponent } from './app.component';
 import { Http, RequestOptions } from '@angular/http';
-import { AuthHttp, AuthConfig, JwtHelper } from 'angular2-jwt';
 import { CoreModule } from './core/core.module';
 import { LayoutModule } from './layout/layout.module';
 import { SharedModule } from './shared/shared.module';
@@ -20,10 +19,8 @@ import { RoutesModule } from './routes/routes.module';
 import { HttpModule } from '@angular/http';
 import { ApiService } from './providers/apiservice';
 import { AuthService } from './auth/auth.service';
-import { UserService } from './core/user_service/user.service';
-import { MessageService } from './core/message/message.service';
 import { AuthGuard } from './auth/auth.guard';
-import { ScopeGuardService } from './auth/scope-guard.service';
+import { FirebaseService } from './core/firebase/firebase.service';
 import { GlobalEventsManager } from './core/event/global.event';
 import { SettingsService } from './core/settings/settings.service';
 import { AlertDialogService } from './providers/alert-dialog.service';
@@ -38,18 +35,6 @@ registerLocaleData(localeUs, 'en-US-POSIX');
 
 
 export function authHttpServiceFactory(http: Http,  options: RequestOptions, router: Router, alertDialog: AlertDialogService) {
-    return new AuthHttp(new AuthConfig({
-        tokenGetter: (async () => {
-            const token = localStorage.getItem('access_token');
-            const jwtHelpr = new JwtHelper();
-            if (!token || jwtHelpr.isTokenExpired(token)) {
-                alertDialog.warningDialog('End of session', 'your session has timed out please log in again.');
-                router.navigate(['/login']);
-                throw new Error('Token Expired');
-            }
-            return token;
-        })
-    }), http, options);
 }
 
 export function createTranslateLoader(http: HttpClient) {
@@ -89,15 +74,8 @@ export function createTranslateLoader(http: HttpClient) {
         GlobalEventsManager,
         SettingsService,
         AuthGuard,
-        UserService,
-        ScopeGuardService,
-        MessageService,
+        FirebaseService,
         ApiService,
-        {
-            provide: AuthHttp,
-            useFactory: authHttpServiceFactory,
-            deps: [Http, RequestOptions, Router, AlertDialogService]
-        }
     ],
     bootstrap: [AppComponent]
 })

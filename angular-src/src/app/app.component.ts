@@ -7,7 +7,6 @@ declare var $: any, ga: Function;
 import { SettingsService } from './core/settings/settings.service';
 import { ApiService } from './providers/apiservice';
 import { AuthService } from './auth/auth.service';
-import {UserService} from './core/user_service/user.service';
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -29,7 +28,6 @@ export class AppComponent implements OnInit {
     constructor(public settings: SettingsService,
         public api: ApiService,
         public auth: AuthService,
-        public userSerivce: UserService,
         public router: Router) {}
 
     async ngOnInit() {

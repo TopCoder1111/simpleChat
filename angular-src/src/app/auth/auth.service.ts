@@ -3,9 +3,8 @@ import { Router } from '@angular/router';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFireDatabase} from '@angular/fire/database';
 import * as firebase from 'firebase';
-import {User} from '../routes/users/shared/user.model';
 import { Subscription } from 'rxjs/Subscription'
-import {Observable} from 'rxjs/Rx';
+import {Observable} from 'rxjs';
 import 'rxjs/add/observable/timer';
 import 'rxjs/add/operator/throttleTime';
 import 'rxjs/add/operator/filter';
@@ -19,7 +18,7 @@ export class AuthService {
     public router: Router,  
     public fireAuth: AngularFireAuth,
     public fireDb: AngularFireDatabase
-    ) { 
+  ) { 
       // Check user connecion status the real time based.
       this.fireAuth.authState
             .do(user => {
@@ -61,7 +60,7 @@ export class AuthService {
    * @param user 
    * @todo
    */
-  logout(user: User){
+  logout(){
   
   }
   /**
@@ -79,16 +78,17 @@ export class AuthService {
    */
   getProfile(){
     const user = JSON.parse(localStorage.getItem('user'));
-    return  this.fireDb.object('/users/'+user.uid);
+    return user;
   }
   /**
    * do Sign up to firebase data store.
    * @param user 
    */
-  signUp(user: User){
+  signUp(email: string, password: string){
     return new Promise((resolve, reject)=>{
-      this.fireAuth.auth.createUserWithEmailAndPassword(user.email, user.password)
+      this.fireAuth.auth.createUserWithEmailAndPassword(email, password)
       .then(response =>{
+        console.log(response);
         resolve(response);
       }, err =>{
         reject(err);
@@ -112,30 +112,32 @@ export class AuthService {
   }
   // Set User offline Status
   updateOnDisconnect() {
-    firebase.database().ref().child(`/users/${this.userId}`)
-            .onDisconnect()
-            .update({status: 'offline'})
+    firebase.database().ref()
+      .child(`/users/${this.userId}`)
+      .onDisconnect()
+      .update({status: 'offline'})
   }
   // set User status away 
   updateOnIdle() {
     this.mouseEvents = Observable.
-                         fromEvent(document, 'mousemove')
-                         .throttleTime(2000)
-                         .do(() => {
-                            this.updateStatus('online')
-                            this.resetTimer()
-                         })
-                         .subscribe()
+          fromEvent(document, 'mousemove')
+          .throttleTime(2000)
+          .do(() => {
+            this.updateStatus('online')
+            this.resetTimer()
+          })
+          .subscribe()
   }
   
   // set Away Timer
   resetTimer() {
     if (this.timer) this.timer.unsubscribe();
-    this.timer = Observable.timer(5000)
-                .do(() => {
-                      this.updateStatus('away')
-                })
-                .subscribe()
+    this.timer = Observable
+        .timer(5000)
+        .do(() => {
+              this.updateStatus('away')
+        })
+        .subscribe()
   }
 
 }

@@ -3,9 +3,8 @@ const screenfull = require('screenfull');
 const browser = require('jquery.browser');
 declare var $: any;
 
-import { UserblockService } from '../userList/userblock/userblock.service';
+import { UserblockService } from '../groups/userblock/userblock.service';
 import { SettingsService } from '../../core/settings/settings.service';
-import { UserService } from '../../core/user_service/user.service';
 
 import { AuthService } from '../../auth/auth.service';
 
@@ -20,7 +19,6 @@ export class HeaderComponent implements OnInit {
     @ViewChild('fsbutton') fsbutton;  // the fullscreen button
 
     constructor(
-        public userService: UserService,
         public userblockService: UserblockService,
         public settings: SettingsService,
         public auth: AuthService) {

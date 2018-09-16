@@ -1,0 +1,16 @@
+<div class="dialog-container">
+  <h1 mat-dialog-title>{{action}} new Username to join into this Group</h1>
+  <form [formGroup] = "newform">
+    <mat-form-field>
+      <input matInput formControlName="tempUserName" type="text" placeholder="UserName">
+      <mat-error *ngFor= "let validation of validateMessages.tempUserName">
+        <mat-error *ngIf ="newform.get('tempUserName').hasError(validation.type)">{{validation.message}}</mat-error>
+      </mat-error>
+      <input  formControlName = "id" type="hidden">
+    </mat-form-field>
+    <div mat-dialog-actions>
+      <button mat-button (click) ="onCancel()">Cancel</button>
+      <button mat-button (click) ="onSubmit()" [disabled]="!newform.valid" class="btn btn-primary">Create</button>
+    </div>
+  </form>
+</div>

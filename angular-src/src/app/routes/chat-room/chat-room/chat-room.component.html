@@ -1,5 +1,5 @@
 <div class="chat-container ">
-  <div class="panel"  *ngIf = "!userService.loading">
+  <div class="panel" >
     <div class="panel-heading">
        
     </div>
@@ -10,15 +10,17 @@
                     <h1>Simple &
                         <br> easy chat app</h1>
                         <p> Choose ther user and start chat with them very simply.</p>
+                        <p *ngIf ="firstJoined" >You added to this Group, Type "Hello" message to chat with members</p>
                 </div>
-                <div class="message" *ngIf ='isVisableMsg()'>
-                    <mat-list role="list"  *ngFor ="let conversation of messageService.conversations">
-                        <mat-card>
+                <div class="message" *ngFor ="let conversation of this.conversations">
+                    <p *ngIf = "conversation.type =='alert'"> {{conversation?.sender.tempUser}} Joined to this group</p>
+                    <mat-list role="list"  *ngIf = "conversation.type !='alert'">
+                        <mat-card >
                             <mat-card-title>
-                                <img  alt="Avatar" class="img-thumbnail img-circle" src="{{isSender(conversation?.sender)?sender?.avatar:receiver?.avatar}}" style="
+                                <img  alt="Avatar" class="img-thumbnail img-circle" *ngIf="conversation?.sender.avatar " src="{{conversation?.sender.avatar}}" style="
                                     width: 55px;
-                                ">
-                                {{isSender(conversation?.sender)?sender.username:receiver.username}}
+                                "><mat-icon color="{{statusColor(userInfo?.status)}}">account_circle</mat-icon>
+                                {{isSender(conversation?.sender)?conversation?.sender.tempUser:conversation?.sender.tempUser}} <span style="font-size: 18px" *ngIf= "isSender(conversation?.sender)">(you)</span>
                             </mat-card-title>
                             <mat-card-content>
                                 <div  class="row col-12" style="display: inline-flex;">
@@ -46,7 +48,6 @@
           </mat-form-field>
           &nbsp;&nbsp;
         <button mat-raised-button (click) ="sendMessage()" [disabled]="!messageText">SEND <i class="fa fa-paper-plane" style="font-size:18px;" aria-hidden="true"></i></button>
-        <mat-checkbox *ngIf="messageText">send message to all user</mat-checkbox>
         <p *ngIf ='!auth.connectionStatus' class="net-error"> Network disconnected, Please check Network status, once fixed, it will connect automatically. </p>
     </div>
   </div>

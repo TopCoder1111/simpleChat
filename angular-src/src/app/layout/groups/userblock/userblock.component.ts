@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserblockService } from './userblock.service';
 import { AuthService } from '../../../auth/auth.service';
+import {FirebaseService} from '../../../core/firebase/firebase.service';
 @Component({
     selector: 'app-userblock',
     templateUrl: './userblock.component.html',
@@ -9,14 +10,14 @@ import { AuthService } from '../../../auth/auth.service';
 export class UserblockComponent implements OnInit {
     user: any;
     profile: any;
-    constructor(public userblockService: UserblockService, public auth: AuthService) {
+    constructor(public userblockService: UserblockService, public auth: AuthService, public firebase: FirebaseService) {
     }
 
     async ngOnInit() {
-        this.profile = await this.auth.getProfile().valueChanges()
-        .subscribe(me =>{
-            this.profile = me;
-            console.log(me);
+        const loggedInUser = this.auth.getProfile();
+        this.firebase.getUser(loggedInUser.uid)
+        .subscribe(response =>{
+            this.profile = response;
         });
     }
     userStatus() {

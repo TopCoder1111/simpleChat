@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { ToasterModule } from 'angular2-toaster';
 
 import {
     MatAutocompleteModule,
@@ -90,7 +89,6 @@ import { CategoryPipe } from './pipes/category/category.pipe';
         TimepickerModule.forRoot(),
         TooltipModule.forRoot(),
         TypeaheadModule.forRoot(),
-        ToasterModule,
         // Material Modules
         MatAutocompleteModule,
         MatButtonModule,
@@ -161,7 +159,6 @@ import { CategoryPipe } from './pipes/category/category.pipe';
         TimepickerModule,
         TooltipModule,
         TypeaheadModule,
-        ToasterModule,
         FlotDirective,
         SparklineDirective,
         EasypiechartDirective,

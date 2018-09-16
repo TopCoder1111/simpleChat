@@ -3,7 +3,6 @@ declare var $: any;
 
 import { SettingsService } from '../../core/settings/settings.service';
 import { ThemesService } from '../../core/themes/themes.service';
-import { TranslatorService } from '../../core/translator/translator.service';
 
 @Component({
     selector: 'app-offsidebar',
@@ -17,9 +16,8 @@ export class OffsidebarComponent implements OnInit, OnDestroy {
     clickEvent = 'click.offsidebar';
     $doc: any = null;
 
-    constructor(public settings: SettingsService, public themes: ThemesService, public translator: TranslatorService) {
+    constructor(public settings: SettingsService, public themes: ThemesService) {
         this.currentTheme = themes.getDefaultTheme();
-        this.selectedLanguage = this.getLangs()[0].code;
     }
 
     ngOnInit() {
@@ -28,14 +26,6 @@ export class OffsidebarComponent implements OnInit, OnDestroy {
 
     setTheme() {
         this.themes.setTheme(this.currentTheme);
-    }
-
-    getLangs() {
-        return this.translator.getAvailableLanguages();
-    }
-
-    setLang(value) {
-        this.translator.useLanguage(value);
     }
 
     anyClickClose() {

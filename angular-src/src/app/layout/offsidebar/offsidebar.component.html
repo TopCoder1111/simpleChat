@@ -197,9 +197,6 @@
         </div>
         <div class="p">
             <h4 class="text-muted text-thin">Language</h4>
-            <select class="form-control" [ngModel]="selectedLanguage" (ngModelChange)="setLang($event)">
-                <option [value]="lang.code" *ngFor="let lang of getLangs()">{{lang.text}}</option>
-            </select>
         </div>
     </tab>
     <tab>

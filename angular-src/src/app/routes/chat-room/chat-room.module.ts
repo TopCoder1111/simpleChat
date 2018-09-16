@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
 import { ChatRoomComponent } from './chat-room/chat-room.component';
 import { Routes, RouterModule } from '@angular/router';
+import { UsernameDialogComponent } from './username-dialog/username-dialog.component';
 
 const routes: Routes = [
     { path: '', component: ChatRoomComponent },
@@ -12,7 +13,8 @@ const routes: Routes = [
         RouterModule.forChild(routes),
         SharedModule,
     ],
-    declarations: [ChatRoomComponent],
+    declarations: [ChatRoomComponent, UsernameDialogComponent],
+    entryComponents: [UsernameDialogComponent],
     exports: [
         RouterModule
     ]

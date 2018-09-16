@@ -1,10 +1,11 @@
 import { Component,AfterViewChecked, ElementRef, ViewChild, OnInit} from '@angular/core';
 import { AuthService } from '../../../auth/auth.service';
-import { UserService } from '../../../core/user_service/user.service';
-import { MessageService } from '../../../core/message/message.service';
-import { Router,ActivatedRoute } from '@angular/router';
-import {User} from '../../users/shared/user.model';
+import {FirebaseService, Message} from '../../../core/firebase/firebase.service';
+import {ActivatedRoute } from '@angular/router';
+import {MatDialog} from '@angular/material';
 import * as moment from 'moment';
+import { UsernameDialogComponent } from '../username-dialog/username-dialog.component';
+import { ThrowStmt } from '../../../../../node_modules/@angular/compiler';
 @Component({
   selector: 'app-chat-room',
   templateUrl: './chat-room.component.html',
@@ -13,42 +14,54 @@ import * as moment from 'moment';
 
 export class ChatRoomComponent implements OnInit,AfterViewChecked {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
-  receiverId : string;
+  groupId : string;
   senderId: string;
   messageText: string; // message Value
-  conversations: Array<any>;
-  sender: any;
-  receiver: any;
+  conversations = [];
+  currentUser: any;
+  loggedInUser: any;
+  userInfo: any;
+  firstJoined: boolean = false;
   navigationSubscription: any;
   constructor(
     private route: ActivatedRoute,
-    public userService : UserService, 
+    private firebase : FirebaseService,
     public auth: AuthService,
-    public messageService: MessageService)
+    public dialog: MatDialog
+  )
   { 
     
     this.navigationSubscription = this.route.params.subscribe((params) => {
       // If it is a NavigationEnd event re-initalise the component
-      this.receiverId = this.route.snapshot.params['id'];
-      this.messageService.getConversations(this.receiverId);
+      
+      this.groupId = this.route.snapshot.params['id'];
       this.initialiseState();
     });
   }
 
   ngOnInit() {
-   
+    this.loggedInUser = JSON.parse(localStorage.getItem('user'));
+    this.firebase.getUserOfGroup(this.groupId, this.loggedInUser.uid)
+    .subscribe(response =>{
+      this.currentUser = response;
+      console.log(this.currentUser);
+      if(!this.currentUser){
+        setTimeout(() =>{
+          this.openDialog();
+        }, 400);
+        return true;
+      }
+      this.getUser(this.loggedInUser.uid);
+      this.getMessages();
+    });
   }
   initialiseState(){
+   
     setTimeout(()=>{
       this.scrollToBottom();
     }, 500);
-    console.log('here');
-    this.getUser();
-    this.auth.getProfile()
-    .valueChanges().subscribe(user =>{
-      this.sender = user;
-      console.log(this.sender);
-    });
+    
+    
   }
   ngAfterViewChecked() {        
       this.scrollToBottom();        
@@ -60,10 +73,25 @@ export class ChatRoomComponent implements OnInit,AfterViewChecked {
       } catch(err) { }                 
   }
   sendMessage(){
-    const message = this.messageText;
-    if(this.messageText.length > 0)
-    this.messageService.createNewChatSession(this.receiverId, message);
-    this.messageText = '';
+    console.log(this.currentUser);
+    if(this.messageText){
+      let messages: Message = {
+        message: this.messageText,
+        sender : {
+          id: this.loggedInUser.uid,
+          tempUser: this.currentUser.userName,
+          avatar: this.userInfo.avatar
+        },
+        created_at: new Date(),
+        type: 'text'
+      }
+      this.firebase.createNewMessage(this.groupId, this.conversations.length+1)
+      .update(messages)
+      .then(response =>{
+        console.log(response);
+        this.messageText = '';
+      });
+    }
   }
   /**
    * Format date string into readable time.
@@ -83,23 +111,109 @@ export class ChatRoomComponent implements OnInit,AfterViewChecked {
     return hour+' : '+min+when;
   }
   /**
-   * getUserName
-   * 
+   * Show new Popup to create new UserName
    */
-  getUser(){
-    this.userService.getUser(this.receiverId).subscribe(receiver =>{
-      this.receiver = receiver;
+  openDialog():void{
+    const dialogRef = this.dialog.open(UsernameDialogComponent,{
+      disableClose: true,
+      width: '500px',
+      data:{
+        action: 'Add',
+        model: {
+          tempUserName: '',
+          id: this.auth.getProfile().uid
+        }
+      }
+    });
+    dialogRef.afterClosed().subscribe(result =>{
+      console.log('result' +result);
+      if(result && result.model){
+        this.currentUser = result.model;
+        this.firebase.addNewUserToGroup(this.groupId, result.model.id, result.model.tempUserName)
+        .then(response =>{
+          this.firstJoined = true;
+          console.log(response);
+          if(response){
+            let messages: Message = {
+              message: "Joined",
+              sender : {
+                id: this.loggedInUser.uid,
+                tempUser: this.currentUser.userName,
+                avatar: this.userInfo.avatar
+              },
+              created_at: new Date(),
+              type: 'alert'
+            }
+            this.firebase.createNewMessage(this.groupId, this.conversations.length+1)
+              .update(messages)
+              .then(response =>{
+                console.log(response);
+              });
+          }
+        }); 
+      }
     });
   }
-  isVisableMsg(){
-    return this.messageService.conversations.length?true:false;
-  }
-  isSender(senderId: string){
-    if(!senderId.indexOf(this.sender.uid)){
+  isSender(sender: any){
+    let senderId = sender.id;
+    if(!senderId.indexOf(this.loggedInUser.uid)){
       return true;
     }
     else{
      return false;
     }
   }
+  
+  /**
+   * get Messages for this group
+   */
+
+   getMessages(){
+     console.log(this.currentUser);
+     this.firebase.getGroupConversations(this.groupId)
+     .subscribe(messages =>{
+      console.log(messages);
+      if(messages){
+        console.log(messages);
+        if(this.conversations.length >0){
+          this.conversations = [];
+        }
+        for (let i in messages){
+          this.conversations.push(messages[i]);
+        }
+      }
+      console.log(this.conversations);
+     });
+   }
+   /**
+    * get User Avatar
+    * @param uid
+    */
+   getUser(uid: string){
+     if(uid == undefined || uid == null){
+       return false;
+     }
+     this.firebase.getUser(uid).subscribe(response =>{
+      if(response){
+       this.userInfo = response;
+      }
+     });
+   }
+   /**
+    * statusColor
+    * @param status
+    */
+   statusColor(status: string){
+    let color = '';
+    if(status == undefined || status == null){return false;}
+    if(!status.indexOf('online')){
+        color = 'primary';
+    }
+    else if(!status.indexOf('away')){
+        color = 'accent';
+    }else{
+        color = '';
+    }
+    return color;
+}
 }

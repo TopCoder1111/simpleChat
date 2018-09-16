@@ -1,5 +1,5 @@
 {
-  "name": "Samle chat app",
+  "name": "chatapp",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -37,6 +37,7 @@
     "@angular/platform-browser": "5.2.1",
     "@angular/platform-browser-dynamic": "5.2.1",
     "@angular/router": "5.2.1",
+    "@auth0/angular-jwt": "^2.0.0",
     "@ngx-translate/core": "8.0.0",
     "@ngx-translate/http-loader": "2.0.0",
     "@swimlane/ngx-datatable": "11.1.2",
@@ -44,11 +45,6 @@
     "ag-grid": "14.2.0",
     "ag-grid-angular": "14.2.0",
     "angular-tree-component": "6.0.0",
-    "angular2-jwt": "^0.2.3",
-    "angular2-text-mask": "8.0.4",
-    "angular2-toaster": "4.0.1",
-    "angularfire2-offline": "^4.3.1",
-    "auth0-js": "^9.3.2",
     "bootstrap": "3.3.7",
     "chart.js": "2.7.1",
     "classlist.js": "1.1.20150312",
