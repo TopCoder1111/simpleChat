@@ -44,10 +44,11 @@
         <a><i class="fa fa-cog" style="font-size:25px;" aria-hidden="true"></i></a>
         &nbsp;&nbsp;
         <mat-form-field class="chat-box">
-            <textarea matInput placeholder="Type message here..." [(ngModel)] = "messageText"></textarea>
+            <textarea matInput placeholder="Type message here..." [disabled]= "!currentUser" [(ngModel)] = "messageText"></textarea>
           </mat-form-field>
           &nbsp;&nbsp;
         <button mat-raised-button (click) ="sendMessage()" [disabled]="!messageText">SEND <i class="fa fa-paper-plane" style="font-size:18px;" aria-hidden="true"></i></button>
+        <p *ngIf ="!currentUser" class="net-error"> You must provide Username before chatting in this group</p>
         <p *ngIf ='!auth.connectionStatus' class="net-error"> Network disconnected, Please check Network status, once fixed, it will connect automatically. </p>
     </div>
   </div>
