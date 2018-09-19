@@ -1,5 +1,5 @@
 # simpleChat
-This is angular 5 based chat app
+This is angular 5 based  Group chat app
 
 ## Install steps
 
@@ -22,3 +22,4 @@ then it will run app and all pages will work on server-less rendering mode.
 
 - email: user3@test.com, password: testuser3
 
+[Demo]: https://chat-525a9.firebaseapp.com
