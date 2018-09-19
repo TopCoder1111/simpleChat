@@ -1,6 +1,9 @@
 # simpleChat
 This is angular 5 based  Group chat app
 
+
+[Demo]: https://chat-525a9.firebaseapp.com
+
 ## Install steps
 
 - angular-cli version: 1.7.4 or latest version.
@@ -22,4 +25,3 @@ then it will run app and all pages will work on server-less rendering mode.
 
 - email: user3@test.com, password: testuser3
 
-[Demo]: https://chat-525a9.firebaseapp.com
