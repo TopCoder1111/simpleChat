@@ -2,7 +2,7 @@
 This is angular 5 based  Group chat app
 
 
-[Demo]: https://chat-525a9.firebaseapp.com
+[Demo](https://www.google.com)
 
 ## Install steps
 
